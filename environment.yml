@@ -1,0 +1,14 @@
+# Conda environment for Ising-ml-criticality
+name: ising-ml-criticality
+dependencies:
+  - python=3.9
+  - numpy
+  - scipy
+  - matplotlib
+  - h5py
+  - pytorch
+  - torchvision
+  - pip
+  - pip:
+      - pytest
+      - jupyter

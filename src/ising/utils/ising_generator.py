@@ -1,0 +1,1 @@
+# Synthetic Ising data generator

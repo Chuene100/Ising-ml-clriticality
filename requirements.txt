@@ -1,0 +1,9 @@
+# Python dependencies for Ising-ml-criticality
+numpy
+scipy
+matplotlib
+h5py
+torch
+torchvision
+pytest
+jupyter
