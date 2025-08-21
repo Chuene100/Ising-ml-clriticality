@@ -34,3 +34,45 @@ def plot_adversarial_results(df_adversarial, df_ordinary, scatter_info_dict, G_l
     plt.tight_layout()
     plt.savefig(figure_file_path)
     plt.close()
+
+def plot_g0_testing(Ts, mu, outputs, outputs_01, outputs2, T0, T1, save_path=None):
+    """
+    Plot G=0 testing results.
+
+    Args:
+        Ts: array-like, temperature values (shape: [n_T])
+        mu: array-like, magnetization values (shape: [n_T])
+        outputs: array-like, raw model outputs (shape: [n_T, n_samples] or flattened)
+        outputs_01: array-like, model binary predictions (shape: [n_T, n_samples])
+        outputs2: array-like, model predictions on shuffled data (shape: [n_T, n_samples])
+        T0: float, lower critical temperature
+        T1: float, upper critical temperature
+        save_path: str or None, if given, save the figure to this path
+    """
+    plt.figure(dpi=150)
+    ax = plt.gca()
+    # Scatter all outputs
+    n_samples = outputs.shape[1] if outputs.ndim == 2 else int(len(outputs) // len(Ts))
+    ax.scatter(
+        np.repeat(Ts, n_samples),
+        outputs.flatten() if outputs.ndim > 1 else outputs,
+        alpha=0.002, s=8.0, color='springgreen'
+    )
+    # Magnetization
+    ax.plot(Ts, mu, "r--", alpha=0.4, label="Magnetization")
+    # Model output (ordinary)
+    ax.plot(Ts, outputs_01.mean(axis=1), "o-", markersize=4, color='darkgreen', label='Model output')
+    # Model output (shuffled)
+    ax.plot(Ts, outputs2.mean(axis=1), "*-", color='purple', label='Model output shuffled')
+    # Critical lines
+    ax.vlines(T0, 0, 1, color='magenta', linestyle='dashed')
+    ax.vlines(T1, 0, 1, color='magenta', linestyle='dashed')
+    ax.set_xlabel("T")
+    ax.set_ylabel("Output / Magnetization")
+    ax.set_title("G=0 Testing")
+    ax.legend()
+    ax.grid(True)
+    plt.tight_layout()
+    if save_path is not None:
+        plt.savefig(save_path, dpi=300)
+    plt.show()

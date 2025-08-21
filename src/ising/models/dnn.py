@@ -31,11 +31,11 @@ class VDNN_one(nn.Module):
     def forward(self, x):
         return self.layers(x)
 
-class SimpleNet(nn.Module):
-    """Simple neural network for 1D input."""
-    def __init__(self, nl=2):
+class SimpleNet(nn.Module):                           # nn.Module is a subclass from which we inherit
+    def __init__(self,nl=2):                                     # Here you define the structure
         super(SimpleNet, self).__init__()
-        layers = [nn.Linear(1, inner_dim), nn.ReLU(), nn.Linear(inner_dim, 1), nn.Sigmoid()]
+        layers=[]
+        layers.extend((nn.Linear(1,inner_dim), nn.ReLU(), nn.Linear(inner_dim,1), nn.Sigmoid()))
         self.layers = nn.Sequential(*layers)
-    def forward(self, x):
+    def forward(self,x):
         return self.layers(x)
